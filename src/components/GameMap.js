@@ -1,4 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+// import { ReactDOMServer } from 'react-dom';
+import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+// mui
+import RoomIcon from '@mui/icons-material/Room';
+// import testMap from './map/';
+// import { CRS, L } from 'leaflet';
+import L from 'leaflet';
 import {
     MapContainer,
     Marker,
@@ -9,70 +16,111 @@ import {
     Circle,
     Rectangle,
     FeatureGroup,
+    ImageOverlay,
 } from 'react-leaflet';
+import { useMap, useMapEvents, useMapEvent } from 'react-leaflet/hooks';
 import { Icon } from 'leaflet';
-const center = [51.505, -0.09];
-const rectangle = [
-    [51.49, -0.08],
-    [51.5, -0.06],
-];
-
-const GameMap = () => {
-    const position = [8.1386, 5.1026]; // [latitude, longitude]
-    const zoomLevel = 15;
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+// import logo from '/logo192.png';
+const center = [-58.59375, 70.3125];
+const tileLayerProps = {
+    url: '/map/ground/{z}/{z}_{x}_{y}.png',
+    attribution: 'Your attribution here',
+};
+const gameMap = '../map/ground/{z}/{z}_{x}_{y}.png';
+// const gameMap = 'surface/{z}/{x}_{y}.jpg';
+const mapInfo = {
+    maxZoom: 8,
+    minZoom: 0,
+    size: [36000, 30000],
+};
+const MyComponent = (props) => {
+    const map = useMap();
+    const { lat: center_lat, lng: center_lng } = map.getCenter();
+    const southWest = Object.values(map.unproject([0, mapInfo.size[1]], 8));
+    const northEast = Object.values(map.unproject([mapInfo.size[0], 0], 8));
+    const [bounds, setBounds] = useState([southWest, northEast]);
+    const [position, setPosition] = useState({
+        lat: center_lat,
+        lng: center_lng,
+    });
+    const [coord, setCoord] = useState([]);
+    map.setMaxBounds(bounds);
+    const mapEvents = useMapEvents({
+        click: (e) => {
+            // console.log('!!', e.latlng);
+            const getCoord = map.project(e.latlng, 8);
+            const { x, y } = getCoord;
+            const position_x = Math.ceil((Math.ceil(x) - mapInfo.size[0] / 2) / 3);
+            const position_y = Math.ceil((Math.ceil(y) - mapInfo.size[1] / 2) / 3);
+            // console.log(position_x, position_y);
+            // setCoord((prev) => ({
+            //     ...prev,
+            //     x: Math.ceil((Math.ceil(x) - mapInfo.size[0] / 2) / 3),
+            //     y: Math.ceil((Math.ceil(y) - mapInfo.size[1] / 2) / 3),
+            // }));
+            setCoord([position_x, position_y]);
+            setPosition((prev) => ({
+                ...prev,
+                ...e.latlng,
+            }));
+            map.locate();
+        },
+        // locationfound: (location) => {
+        //     console.log('location found:', location);
+        // },
+    });
     const codingSpot = new Icon({
-        iconUrl: '/computer-solid.svg',
-        iconSize: [30, 125],
-        iconAnchor: [40, 90],
-        popupAnchor: [-25, -40],
+        iconUrl: '/leafletImgs/marker-icon-2x.png',
+        iconSize: [25, 41],
+        // iconAnchor: [40, 90],
+        popupAnchor: [0, -10],
+    });
+    const html = renderToString(<RoomIcon />);
+    const customMarkerIcon = new L.divIcon({
+        iconSize: [36, 36],
+        className: 'dummy text-red-500',
+        html: html,
     });
     return (
-        // <MapContainer className="w-100" center={position} zoom={zoomLevel} scrollWheelZoom={false}>
-        //     <TileLayer
-        //         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        //         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        //     />
-        //     <Marker position={position} icon={codingSpot}>
-        //         <Popup>
-        //             Omu-Aran the Head Post of Igbomina land, is a town in the Nigerian state of Kwara. It originated
-        //             from Ife and currently the local government headquarters of Irepodun local government.
-        //         </Popup>
-        //     </Marker>
-        // </MapContainer>
-        <MapContainer center={center} zoom={13} scrollWheelZoom={false}>
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <LayersControl position="topright">
-                <LayersControl.Overlay name="Marker with popup">
-                    <Marker position={center}>
-                        <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
-                        </Popup>
-                    </Marker>
-                </LayersControl.Overlay>
-                <LayersControl.Overlay checked name="Layer group with circles">
-                    <LayerGroup>
-                        <Circle center={center} pathOptions={{ fillColor: 'blue' }} radius={200} />
-                        <Circle center={center} pathOptions={{ fillColor: 'red' }} radius={100} stroke={false} />
-                        <LayerGroup>
-                            <Circle
-                                center={[51.51, -0.08]}
-                                pathOptions={{ color: 'green', fillColor: 'green' }}
-                                radius={100}
-                            />
-                        </LayerGroup>
-                    </LayerGroup>
-                </LayersControl.Overlay>
-                <LayersControl.Overlay name="Feature group">
-                    <FeatureGroup pathOptions={{ color: 'purple' }}>
-                        <Popup>Popup in FeatureGroup</Popup>
-                        <Circle center={[51.51, -0.06]} radius={200} />
-                        <Rectangle bounds={rectangle} />
-                    </FeatureGroup>
-                </LayersControl.Overlay>
-            </LayersControl>
+        <Marker position={position} icon={codingSpot}>
+            <Popup>
+                <div className="font-bold">
+                    {/* <RoomIcon color="success" /> */}
+                    {/* A pretty CSS3 popup. <br /> Easily customizable. */}
+                    <sapn className="pr-2">座標:</sapn>
+                    {coord.toString()}
+                </div>
+            </Popup>
+        </Marker>
+    );
+};
+const CustomMarker = () => {
+    const html = renderToString(<RoomIcon />);
+    const customMarkerIcon = new L.divIcon({
+        html: html,
+    });
+    return (
+        <Marker position={[51.505, -0.09]} icon={customMarkerIcon}>
+            {/* <RoomIcon /> */}
+            {/* <Icon>
+                <LocationOn color="primary" fontSize="large" />
+            </Icon> */}
+        </Marker>
+    );
+};
+const GameMap = () => {
+    return (
+        <MapContainer
+            crs={L.CRS.Simple}
+            attributionControl={false}
+            center={center}
+            zoom={2}
+            maxZoom={6}
+            scrollWheelZoom={true}
+        >
+            <MyComponent />
+            <TileLayer {...tileLayerProps} noWrap={true} />
         </MapContainer>
     );
 };

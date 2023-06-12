@@ -29,8 +29,8 @@ function App() {
                     flexWrap: 'wrap',
                     '& > :not(style)': {
                         m: 1,
-                        width: 700,
-                        height: 700,
+                        // width: 700,
+                        // height: 700,
                     },
                 }}
             >
