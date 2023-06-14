@@ -1,3 +1,7 @@
+# 備註:
+
+有些地點資訊尚未整理完畢，名稱也有些誤差，之後會逐步修正。
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
