@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-// import { ReactDOMServer } from 'react-dom';
-import { renderToStaticMarkup, renderToString } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 // mui
 import RoomIcon from '@mui/icons-material/Room';
-// import testMap from './map/';
 // import { CRS, L } from 'leaflet';
 import L from 'leaflet';
 import {
@@ -16,19 +14,24 @@ import {
     Circle,
     Rectangle,
     FeatureGroup,
-    ImageOverlay,
 } from 'react-leaflet';
 import { useMap, useMapEvents, useMapEvent } from 'react-leaflet/hooks';
-import { Icon } from 'leaflet';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-// import logo from '/logo192.png';
+// components
+import Towers from './markers/Towers';
+import Stables from './markers/Stables';
 const center = [-58.59375, 70.3125];
-const tileLayerProps = {
-    url: '/map/ground/{z}/{z}_{x}_{y}.png',
-    attribution: 'Your attribution here',
+const skyLayerProps = {
+    url: '/map/sky/{z}/{z}_{x}_{y}.png',
+    attribution: 'Tears of the Kingdom Interactive Map-Sky',
 };
-const gameMap = '../map/ground/{z}/{z}_{x}_{y}.png';
-// const gameMap = 'surface/{z}/{x}_{y}.jpg';
+const surfaceLayerProps = {
+    url: '/map/surface/{z}/{z}_{x}_{y}.png',
+    attribution: 'Tears of the Kingdom Interactive Map-Surface',
+};
+const depthsLayerProps = {
+    url: '/map/depths/{z}/{z}_{x}_{y}.png',
+    attribution: 'Tears of the Kingdom Interactive Map-Depths',
+};
 const mapInfo = {
     maxZoom: 8,
     minZoom: 0,
@@ -70,7 +73,7 @@ const MyComponent = (props) => {
         //     console.log('location found:', location);
         // },
     });
-    const codingSpot = new Icon({
+    const codingSpot = new L.Icon({
         iconUrl: '/leafletImgs/marker-icon-2x.png',
         iconSize: [25, 41],
         // iconAnchor: [40, 90],
@@ -86,26 +89,10 @@ const MyComponent = (props) => {
         <Marker position={position} icon={codingSpot}>
             <Popup>
                 <div className="font-bold">
-                    {/* <RoomIcon color="success" /> */}
-                    {/* A pretty CSS3 popup. <br /> Easily customizable. */}
-                    <sapn className="pr-2">座標:</sapn>
+                    <span className="pr-2">座標:</span>
                     {coord.toString()}
                 </div>
             </Popup>
-        </Marker>
-    );
-};
-const CustomMarker = () => {
-    const html = renderToString(<RoomIcon />);
-    const customMarkerIcon = new L.divIcon({
-        html: html,
-    });
-    return (
-        <Marker position={[51.505, -0.09]} icon={customMarkerIcon}>
-            {/* <RoomIcon /> */}
-            {/* <Icon>
-                <LocationOn color="primary" fontSize="large" />
-            </Icon> */}
         </Marker>
     );
 };
@@ -120,7 +107,19 @@ const GameMap = () => {
             scrollWheelZoom={true}
         >
             <MyComponent />
-            <TileLayer {...tileLayerProps} noWrap={true} />
+            <LayersControl position="topright">
+                <LayersControl.BaseLayer name="sky">
+                    <TileLayer {...skyLayerProps} noWrap={true} />
+                </LayersControl.BaseLayer>
+                <LayersControl.BaseLayer checked name="surface">
+                    <TileLayer {...surfaceLayerProps} noWrap={true} />
+                </LayersControl.BaseLayer>
+                <LayersControl.BaseLayer name="depths">
+                    <TileLayer {...depthsLayerProps} noWrap={true} />
+                </LayersControl.BaseLayer>
+                <Towers />
+                <Stables />
+            </LayersControl>
         </MapContainer>
     );
 };
