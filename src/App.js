@@ -1,12 +1,48 @@
-import logo from './logo.svg';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import 'leaflet/dist/leaflet.css';
-
-import Box from '@mui/material/Box';
+// theme
+import { ColorThemeProvider } from './context/ColorThemeProvider';
 import Paper from '@mui/material/Paper';
-import GameMap from './components/GameMap';
+import RootLayout from './components/pages/Root';
+import Error from './components/pages/Error';
+import GameMap from './components/pages/GameMap';
+import MarkersPage from './components/pages/MarkersPage';
+import AuthenticationPage, { action as authAction } from './components/pages/Authentication';
+import { action as logoutAction } from './components/pages/Logout';
+import { tokenLoader } from './util/auth';
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        id: 'root',
+        loader: tokenLoader,
+        element: <RootLayout />,
+        errorElement: <Error />,
+        children: [
+            {
+                index: true,
+                element: <GameMap />,
+            },
+            { path: 'markers', element: <MarkersPage /> },
+            {
+                path: '/auth',
+                element: <AuthenticationPage />,
+                action: authAction,
+            },
+            {
+                path: '/logout',
+                action: logoutAction,
+            },
+        ],
+    },
+]);
 function App() {
     return (
+        <ColorThemeProvider>
+            <RouterProvider router={router} />
+        </ColorThemeProvider>
+        // -------------------
         // <div className="App">
         //     <header className="App-header">
         //         <img src={logo} className="App-logo" alt="logo" />
@@ -22,21 +58,6 @@ function App() {
         //     </Button>
         //     <h1 className="text-3xl font-bold underline p-5 bg-red-700">Hello world!</h1>
         // </div>
-        <>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    '& > :not(style)': {
-                        m: 1,
-                        // width: 700,
-                        // height: 700,
-                    },
-                }}
-            >
-                <GameMap />
-            </Box>
-        </>
     );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { renderToString } from 'react-dom/server';
 // mui
+import Box from '@mui/material/Box';
 import RoomIcon from '@mui/icons-material/Room';
 // import { CRS, L } from 'leaflet';
 import L from 'leaflet';
@@ -17,11 +18,11 @@ import {
 } from 'react-leaflet';
 import { useMap, useMapEvents, useMapEvent } from 'react-leaflet/hooks';
 // components
-import Towers from './markers/Towers';
-import Stables from './markers/Stables';
-import Shrines from './markers/Shrines';
-import DragonsTear from './markers/DragonsTear';
-import LightRoots from './markers/LightRoot';
+import Towers from '../markers/Towers';
+import Stables from '../markers/Stables';
+import Shrines from '../markers/Shrines';
+import DragonsTear from '../markers/DragonsTear';
+import LightRoots from '../markers/LightRoot';
 const center = [-58.59375, 70.3125];
 const skyLayerProps = {
     url: '/map/sky/{z}/{z}_{x}_{y}.png',
@@ -110,68 +111,80 @@ const MyComponent = (props) => {
 const GameMap = () => {
     const [mapLv, setMapLv] = useState('surface');
     return (
-        <MapContainer
-            crs={L.CRS.Simple}
-            attributionControl={false}
-            center={center}
-            zoom={2}
-            maxZoom={7}
-            scrollWheelZoom={true}
+        <Box
+            sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                '& > :not(style)': {
+                    m: 4,
+                    // width: 700,
+                    // height: 700,
+                },
+            }}
         >
-            <MyComponent />
-            <LayersControl position="topright">
-                <LayersControl.BaseLayer name="sky">
-                    <TileLayer
-                        {...skyLayerProps}
-                        noWrap={true}
-                        eventHandlers={{
-                            add: (e) => {
-                                // console.log('Added sky Layer:', e.target);
-                                setMapLv('sky');
-                            },
-                            // remove: (e) => {
-                            //     console.log('Removed sky layer:', e.target);
-                            // },
-                        }}
-                    />
-                </LayersControl.BaseLayer>
-                <LayersControl.BaseLayer checked name="surface">
-                    <TileLayer
-                        {...surfaceLayerProps}
-                        noWrap={true}
-                        eventHandlers={{
-                            add: (e) => {
-                                // console.log('Added surface Layer:', e.target);
-                                setMapLv('surface');
-                            },
-                            // remove: (e) => {
-                            //     console.log('Removed surface layer:', e.target);
-                            // },
-                        }}
-                    />
-                </LayersControl.BaseLayer>
-                <LayersControl.BaseLayer name="depths">
-                    <TileLayer
-                        {...depthsLayerProps}
-                        noWrap={true}
-                        eventHandlers={{
-                            add: (e) => {
-                                // console.log('Added depths Layer:', e.target);
-                                setMapLv('depths');
-                            },
-                            // remove: (e) => {
-                            //     console.log('Removed depths layer:', e.target);
-                            // },
-                        }}
-                    />
-                </LayersControl.BaseLayer>
-                <Towers mapLv={mapLv} />
-                <Stables mapLv={mapLv} />
-                <Shrines mapLv={mapLv} />
-                <LightRoots mapLv={mapLv} />
-                <DragonsTear mapLv={mapLv} />
-            </LayersControl>
-        </MapContainer>
+            <MapContainer
+                crs={L.CRS.Simple}
+                attributionControl={false}
+                center={center}
+                zoom={2}
+                maxZoom={7}
+                scrollWheelZoom={true}
+            >
+                <MyComponent />
+                <LayersControl position="topright">
+                    <LayersControl.BaseLayer name="sky">
+                        <TileLayer
+                            {...skyLayerProps}
+                            noWrap={true}
+                            eventHandlers={{
+                                add: (e) => {
+                                    // console.log('Added sky Layer:', e.target);
+                                    setMapLv('sky');
+                                },
+                                // remove: (e) => {
+                                //     console.log('Removed sky layer:', e.target);
+                                // },
+                            }}
+                        />
+                    </LayersControl.BaseLayer>
+                    <LayersControl.BaseLayer checked name="surface">
+                        <TileLayer
+                            {...surfaceLayerProps}
+                            noWrap={true}
+                            eventHandlers={{
+                                add: (e) => {
+                                    // console.log('Added surface Layer:', e.target);
+                                    setMapLv('surface');
+                                },
+                                // remove: (e) => {
+                                //     console.log('Removed surface layer:', e.target);
+                                // },
+                            }}
+                        />
+                    </LayersControl.BaseLayer>
+                    <LayersControl.BaseLayer name="depths">
+                        <TileLayer
+                            {...depthsLayerProps}
+                            noWrap={true}
+                            eventHandlers={{
+                                add: (e) => {
+                                    // console.log('Added depths Layer:', e.target);
+                                    setMapLv('depths');
+                                },
+                                // remove: (e) => {
+                                //     console.log('Removed depths layer:', e.target);
+                                // },
+                            }}
+                        />
+                    </LayersControl.BaseLayer>
+                    <Towers mapLv={mapLv} />
+                    <Stables mapLv={mapLv} />
+                    <Shrines mapLv={mapLv} />
+                    <LightRoots mapLv={mapLv} />
+                    <DragonsTear mapLv={mapLv} />
+                </LayersControl>
+            </MapContainer>
+        </Box>
     );
 };
 export default GameMap;
