@@ -18,11 +18,11 @@ import {
 } from 'react-leaflet';
 import { useMap, useMapEvents, useMapEvent } from 'react-leaflet/hooks';
 // components
-import Towers from '../markers/Towers';
-import Stables from '../markers/Stables';
-import Shrines from '../markers/Shrines';
-import DragonsTear from '../markers/DragonsTear';
-import LightRoots from '../markers/LightRoot';
+import Towers from '../components/markers/Towers';
+import Stables from '../components/markers/Stables';
+import Shrines from '../components/markers/Shrines';
+import DragonsTear from '../components/markers/DragonsTear';
+import LightRoots from '../components/markers/LightRoot';
 const center = [-58.59375, 70.3125];
 const skyLayerProps = {
     url: '/map/sky/{z}/{z}_{x}_{y}.png',

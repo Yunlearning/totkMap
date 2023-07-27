@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import CardList from '../components/Cards/CardList';
 const PRODUCTS = [
     { id: 'p1', title: 'Product 1' },
     { id: 'p2', title: 'Product 2' },
@@ -7,15 +8,15 @@ const PRODUCTS = [
 const MarkersPage = () => {
     return (
         <>
-            <h1>Markers</h1>
-            <ul>
+            <h1 className="ml-20">Markers</h1>
+            {/* <ul>
                 {PRODUCTS.map((prod) => (
                     <li key={prod.id}>
-                        {/* <Link to={`/products/${prod.id}`}>{prod.title}</Link> */}
                         <Link to={prod.id}>{prod.title}</Link>
                     </li>
                 ))}
-            </ul>
+            </ul> */}
+            <CardList />
         </>
     );
 };

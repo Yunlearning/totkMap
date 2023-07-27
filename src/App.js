@@ -4,12 +4,12 @@ import 'leaflet/dist/leaflet.css';
 // theme
 import { ColorThemeProvider } from './context/ColorThemeProvider';
 import Paper from '@mui/material/Paper';
-import RootLayout from './components/pages/Root';
-import Error from './components/pages/Error';
-import GameMap from './components/pages/GameMap';
-import MarkersPage from './components/pages/MarkersPage';
-import AuthenticationPage, { action as authAction } from './components/pages/Authentication';
-import { action as logoutAction } from './components/pages/Logout';
+import RootLayout from './pages/Root';
+import Error from './pages/Error';
+import GameMap from './pages/GameMap';
+import MarkersPage from './pages/MarkersPage';
+import AuthenticationPage, { action as authAction } from './pages/Authentication';
+import { action as logoutAction } from './pages/Logout';
 import { tokenLoader } from './util/auth';
 
 const router = createBrowserRouter([
