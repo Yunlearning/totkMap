@@ -8,10 +8,10 @@ import RootLayout from './pages/Root';
 import Error from './pages/Error';
 import GameMap from './pages/GameMap';
 import MarkersPage from './pages/MarkersPage';
+import NewMarker from './pages/NewMarker';
 import AuthenticationPage, { action as authAction } from './pages/Authentication';
 import { action as logoutAction } from './pages/Logout';
 import { tokenLoader } from './util/auth';
-
 const router = createBrowserRouter([
     {
         path: '/',
@@ -24,7 +24,21 @@ const router = createBrowserRouter([
                 index: true,
                 element: <GameMap />,
             },
-            { path: 'markers', element: <MarkersPage /> },
+            {
+                path: 'markers',
+                // element: <MarkersPage />,
+                children: [
+                    {
+                        index: true,
+                        element: <MarkersPage />,
+                    },
+                    {
+                        path: 'new',
+                        element: <NewMarker />,
+                    },
+                ],
+            },
+
             {
                 path: '/auth',
                 element: <AuthenticationPage />,

@@ -45,11 +45,11 @@ export default AuthenticationPage;
 
 // ----
 export const action = async ({ request }) => {
-    const searchParams = new URL(request.url).searchParams;
-    const mode = searchParams.get('mode') || 'login';
-    if (mode !== 'login' && mode !== 'signup') {
-        throw json({ message: 'Unsupport mode.' }, { status: 422 });
-    }
+    // const searchParams = new URL(request.url).searchParams;
+    // const mode = searchParams.get('mode') || 'login';
+    // if (mode !== 'login' && mode !== 'signup') {
+    //     throw json({ message: 'Unsupport mode.' }, { status: 422 });
+    // }
     // const data = await request.formData();
     // const authData = {
     //     email: data.get('email'),
@@ -69,9 +69,10 @@ export const action = async ({ request }) => {
     // if (!response.ok) {
     //     throw json({ message: 'Could not authenticate user.' }, { status: 500 });
     // }
-    // manage the JWT token
-    // store in cookie or memory
+    // // manage the JWT token
+    // // store in cookie or memory
     // const resData = await response.json();
+    // const token = resData.token;
     // ---------------
     console.log('form submit!!');
     const token = 'loginOk!';

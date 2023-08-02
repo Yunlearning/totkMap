@@ -1,21 +1,23 @@
 import { Link } from 'react-router-dom';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import CardList from '../components/Cards/CardList';
-const PRODUCTS = [
-    { id: 'p1', title: 'Product 1' },
-    { id: 'p2', title: 'Product 2' },
-    { id: 'p3', title: 'Product 3' },
-];
+
 const MarkersPage = () => {
     return (
         <>
-            <h1 className="ml-20">Markers</h1>
-            {/* <ul>
-                {PRODUCTS.map((prod) => (
-                    <li key={prod.id}>
-                        <Link to={prod.id}>{prod.title}</Link>
-                    </li>
-                ))}
-            </ul> */}
+            {/* <h1 className="ml-20">Markers</h1> */}
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', px: 6, py: 2 }}>
+                <Typography variant="h4" sx={{ minWidth: 100, fontWeight: 'bold', ml: 3 }}>
+                    Markers
+                </Typography>
+                <Button className="ml-auto mr-6" variant="contained" component={Link} to="new">
+                    Add Marker
+                </Button>
+                {/* <Typography sx={{ minWidth: 100 }}>Profile</Typography> */}
+            </Box>
             <CardList />
         </>
     );

@@ -20,6 +20,19 @@ export const ColorThemeProvider = (props) => {
                     mode,
                     // 自動啟用暗模式：
                     // mode: prefersDarkMode ? 'dark' : 'light',
+                    //
+                    primary: {
+                        main: '#fbc02d',
+                    },
+                    secondary: {
+                        main: '#5785fb',
+                    },
+                    warning: {
+                        main: '#f57f17',
+                    },
+                    success: {
+                        main: '#00e676',
+                    },
                 },
             }),
         [mode]
