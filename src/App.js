@@ -7,11 +7,15 @@ import Paper from '@mui/material/Paper';
 import RootLayout from './pages/Root';
 import Error from './pages/Error';
 import GameMap from './pages/GameMap';
-import MarkersPage from './pages/MarkersPage';
+import MarkersPage, { loader as markersLoader } from './pages/MarkersPage';
 import NewMarker from './pages/NewMarker';
+import { action as operateMarkerAction } from './components/marker/MarkerForm';
+import { action as markersPageAction } from './components/Cards/CardList';
 import AuthenticationPage, { action as authAction } from './pages/Authentication';
 import { action as logoutAction } from './pages/Logout';
 import { tokenLoader } from './util/auth';
+import MarkerDetail, { loader as markerDetailLoader, action as markerDetailAction } from './pages/MarkerDetail';
+import EditMarker from './pages/EditMarker';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -31,10 +35,30 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <MarkersPage />,
+                        loader: markersLoader,
+                        action: markersPageAction,
                     },
                     {
                         path: 'new',
                         element: <NewMarker />,
+                        action: operateMarkerAction,
+                    },
+                    {
+                        path: ':markerId',
+                        id: 'marker-detail',
+                        loader: markerDetailLoader,
+                        children: [
+                            {
+                                index: true,
+                                element: <MarkerDetail />,
+                                action: markerDetailAction,
+                            },
+                            {
+                                path: 'edit',
+                                element: <EditMarker />,
+                                action: operateMarkerAction,
+                            },
+                        ],
                     },
                 ],
             },

@@ -45,37 +45,37 @@ export default AuthenticationPage;
 
 // ----
 export const action = async ({ request }) => {
-    // const searchParams = new URL(request.url).searchParams;
-    // const mode = searchParams.get('mode') || 'login';
-    // if (mode !== 'login' && mode !== 'signup') {
-    //     throw json({ message: 'Unsupport mode.' }, { status: 422 });
-    // }
-    // const data = await request.formData();
-    // const authData = {
-    //     email: data.get('email'),
-    //     password: data.get('password'),
-    // };
-    // const response = await fetch(`http://localhost:8080/${mode}`, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(authData),
-    // });
+    const searchParams = new URL(request.url).searchParams;
+    const mode = searchParams.get('mode') || 'login';
+    if (mode !== 'login' && mode !== 'signup') {
+        throw json({ message: 'Unsupport mode.' }, { status: 422 });
+    }
+    const data = await request.formData();
+    const authData = {
+        email: data.get('email'),
+        password: data.get('password'),
+    };
+    const response = await fetch(`http://localhost:8080/${mode}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(authData),
+    });
 
-    // if (response.status === 422 || response.status === 401) {
-    //     return response;
-    // }
-    // if (!response.ok) {
-    //     throw json({ message: 'Could not authenticate user.' }, { status: 500 });
-    // }
-    // // manage the JWT token
-    // // store in cookie or memory
-    // const resData = await response.json();
-    // const token = resData.token;
+    if (response.status === 422 || response.status === 401) {
+        return response;
+    }
+    if (!response.ok) {
+        throw json({ message: 'Could not authenticate user.' }, { status: 500 });
+    }
+    // manage the JWT token
+    // store in cookie or memory
+    const resData = await response.json();
+    const token = resData.token;
     // ---------------
-    console.log('form submit!!');
-    const token = 'loginOk!';
+    // console.log('form submit!!');
+    // const token = 'loginOk!';
     localStorage.setItem('token', token);
     const expiration = new Date();
     expiration.setHours(expiration.getHours() + 1);

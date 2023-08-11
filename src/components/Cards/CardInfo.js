@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link, useSubmit, useRouteLoaderData } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import { CardActionArea } from '@mui/material';
@@ -20,17 +21,24 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
 }));
-const handleEdit = () => {
-    console.log('edit!');
-};
-const handleDelete = () => {
-    console.log('delete!');
-};
+
 export default function CardInfo({ markInfo }) {
     const { id, title, type, imgSrc, axis } = markInfo;
+    const token = useRouteLoaderData('root');
+    const submit = useSubmit();
+    const handleEdit = () => {
+        console.log('edit!');
+    };
+    const handleDelete = () => {
+        console.log('delete!');
+        const proceed = window.confirm('確定刪除?');
+        if (proceed) {
+            submit({ markerId: id }, { method: 'delete' });
+        }
+    };
     return (
         <Card sx={{ width: '100%' }}>
-            <CardActionArea component={'div'}>
+            <CardActionArea component={Link} to={`/markers/${id}`}>
                 <CardContent
                     sx={{
                         p: 0,
@@ -67,16 +75,18 @@ export default function CardInfo({ markInfo }) {
                                     </ListItem>
                                 </List>
                             </Grid>
-                            <Grid item xs={12}>
-                                <CardActions sx={{ justifyContent: 'end' }}>
-                                    <Button onClick={handleEdit} size="small">
-                                        Edit
-                                    </Button>
-                                    <Button onClick={handleDelete} size="small">
-                                        Delete
-                                    </Button>
-                                </CardActions>
-                            </Grid>
+                            {token && (
+                                <Grid item xs={12}>
+                                    <CardActions sx={{ justifyContent: 'end' }}>
+                                        <Button onClick={handleEdit} size="small">
+                                            Edit
+                                        </Button>
+                                        <Button onClick={handleDelete} size="small">
+                                            Delete
+                                        </Button>
+                                    </CardActions>
+                                </Grid>
+                            )}
                         </Grid>
                     </Grid>
                 </CardContent>
