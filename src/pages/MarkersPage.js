@@ -29,11 +29,14 @@ export default MarkersPage;
 
 async function loadMarkers() {
     const response = await fetch('http://localhost:8080/markers');
+    // const testFilter = await fetch('http://localhost:8080/markers/filterData?markType=1');
+    // const testData = await testFilter.json();
+    // console.log('result:---', testData);
     if (!response.ok) {
         throw json({ message: 'Could not fetch markers.' }, { status: 500 });
     } else {
         const resData = await response.json();
-        console.log('markers', resData);
+        // console.log('markers', resData);
         return resData;
         // return resData.markers
     }

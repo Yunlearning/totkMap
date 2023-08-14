@@ -37,7 +37,7 @@ const Item = styled(Paper)(({ theme }) => ({
  * markType:
  */
 const MarkerForm = ({ method, marker }) => {
-    const [markType, setMarkType] = useState(marker.markType ? marker.markType : '');
+    const [markType, setMarkType] = useState(marker ? marker.markType : '');
     console.log('MarkerForm---marker', marker);
     // useEffect(() => {
     //     if (marker.markType) {
@@ -78,7 +78,7 @@ const MarkerForm = ({ method, marker }) => {
                     name="markName"
                     variant="standard"
                     fullWidth
-                    defaultValue={marker.markName ? marker.markName : ''}
+                    defaultValue={marker ? marker.markName : ''}
                 />
                 <Stack spacing={2} direction="row">
                     <TextField
@@ -87,7 +87,7 @@ const MarkerForm = ({ method, marker }) => {
                         name="coord_x"
                         variant="standard"
                         type="number"
-                        defaultValue={marker.coord_x ? marker.coord_x : 0}
+                        defaultValue={marker ? marker.coord_x : 0}
                         fullWidth
                     />
                     <TextField
@@ -96,7 +96,7 @@ const MarkerForm = ({ method, marker }) => {
                         name="coord_y"
                         variant="standard"
                         type="number"
-                        defaultValue={marker.coord_y ? marker.coord_y : 0}
+                        defaultValue={marker ? marker.coord_y : 0}
                         fullWidth
                     />
                     <TextField
@@ -105,17 +105,13 @@ const MarkerForm = ({ method, marker }) => {
                         name="coord_z"
                         variant="standard"
                         type="number"
-                        defaultValue={marker.coord_z ? marker.coord_z : 0}
+                        defaultValue={marker ? marker.coord_z : 0}
                         fullWidth
                     />
                 </Stack>
                 <FormControl>
                     <FormLabel id="level-label">地圖</FormLabel>
-                    <RadioGroup
-                        defaultValue={marker.level ? marker.level : 'sky'}
-                        aria-labelledby="level-label"
-                        name="level"
-                    >
+                    <RadioGroup defaultValue={marker ? marker.level : 'sky'} aria-labelledby="level-label" name="level">
                         <FormControlLabel value="sky" control={<Radio />} label="天空" />
                         <FormControlLabel value="surface" control={<Radio />} label="地表" />
                         <FormControlLabel value="depths" control={<Radio />} label="地底" />

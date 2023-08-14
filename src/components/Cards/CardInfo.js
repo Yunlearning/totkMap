@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link, useSubmit, useRouteLoaderData } from 'react-router-dom';
+import { transformMarkerType } from '../../util/utility';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import { CardActionArea } from '@mui/material';
@@ -57,7 +58,7 @@ export default function CardInfo({ markInfo }) {
                                 <List component="ul" sx={{ my: 0, py: 0 }} aria-label="mailbox folders">
                                     <ListItem component="li" divider>
                                         <Typography variant="h5" component="div">
-                                            Type ({type}):
+                                            Type ({transformMarkerType(type)}):
                                         </Typography>
                                         <Typography variant="h6" component="div">
                                             {title}
@@ -65,7 +66,7 @@ export default function CardInfo({ markInfo }) {
                                     </ListItem>
                                     <ListItem component="li">
                                         <Typography variant="h6" component="div">
-                                            AXIS:
+                                            座標 :
                                         </Typography>
                                     </ListItem>
                                     <ListItem component="li">
