@@ -56,12 +56,14 @@ const MyComponent = (props) => {
     map.setMaxBounds(bounds);
     const mapEvents = useMapEvents({
         click: (e) => {
-            // console.log('!!', e.latlng);
+            console.log('!!', e.latlng);
             const getCoord = map.project(e.latlng, 8);
             const { x, y } = getCoord;
+            console.log(x, y);
+
             const position_x = Math.ceil((Math.ceil(x) - mapInfo.size[0] / 2) / 3);
-            const position_y = Math.ceil((Math.ceil(y) - mapInfo.size[1] / 2) / 3);
-            // console.log(position_x, position_y);
+            const position_y = Math.ceil((Math.ceil(y) - mapInfo.size[1] / 2) / 3) * -1;
+            console.log(position_x, position_y);
             // setCoord((prev) => ({
             //     ...prev,
             //     x: Math.ceil((Math.ceil(x) - mapInfo.size[0] / 2) / 3),

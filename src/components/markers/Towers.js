@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { transData } from '../../util/utility';
 import { Icon } from 'leaflet';
 import L from 'leaflet';
 import { Marker, Popup, LayersControl, LayerGroup } from 'react-leaflet';
 import { useMap, useMapEvents, useMapEvent } from 'react-leaflet/hooks';
 import towerIcon from '../../assets/marker/tower_r.png';
 import MapLayers from './mapLayers';
-const transData = (name, level, coord_x, coord_y, text) => {
-    return {
-        name,
-        level,
-        coords: [Number(coord_x), Number(coord_y)],
-        text,
-    };
-};
+
 const towersData = [
     {
         coords: [17102, 14571],
@@ -109,7 +103,8 @@ const towersData = [
 const Towers = (props) => {
     const { mapLv } = props;
     const map = useMap();
-    const [towers, SetTowers] = useState(towersData);
+    // const [towers, SetTowers] = useState(towersData);
+    const [towers, SetTowers] = useState([]);
     const markerIcon = new Icon({
         iconUrl: towerIcon,
         iconSize: [25, 25],
@@ -117,7 +112,6 @@ const Towers = (props) => {
         // popupAnchor: [0, -10],
     });
     //
-    const [datas, setDatas] = useState([]);
     useEffect(() => {
         fetch('http://localhost:8080/markers?markType=1')
             .then((res) => {
@@ -132,12 +126,12 @@ const Towers = (props) => {
                     return transData(marker.markName, marker.level, marker.coord_x, marker.coord_y, '');
                 });
                 // console.log('----tower data', output);
-                setDatas(output);
+                SetTowers(output);
             });
-    }, [datas]);
+    }, []);
     return (
         <MapLayers layerName="Towers" checked={true}>
-            {datas.map((tower, index) => {
+            {towers.map((tower, index) => {
                 if (tower.level === mapLv) {
                     const position = map.unproject(tower.coords, 8);
                     return (

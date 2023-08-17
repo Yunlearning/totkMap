@@ -23,3 +23,16 @@ export function transformMarkerType(type) {
         throw Error('Unknow Marker Type');
     }
 }
+export const transData = (name, level, coord_x, coord_y, text) => {
+    const transAxis = (coord_x, coord_y) => {
+        const map_x = Math.ceil(Number(coord_x) * 3 + 18000);
+        const map_y = Math.ceil(Number(coord_y) * -3 + 15000);
+        return [map_x, map_y];
+    };
+    return {
+        name,
+        level,
+        coords: transAxis(coord_x, coord_y),
+        text,
+    };
+};
