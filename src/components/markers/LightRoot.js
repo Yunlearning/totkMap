@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { transData } from '../../util/utility';
 import { Icon } from 'leaflet';
 import L from 'leaflet';
 import { Marker, Popup, LayersControl, LayerGroup } from 'react-leaflet';
@@ -519,13 +520,30 @@ const reverseString = (str) => {
 const LightRoots = (props) => {
     const { mapLv } = props;
     const map = useMap();
-    const [lightRoots, SetLightRoots] = useState(lightRootsData);
+    // const [lightRoots, SetLightRoots] = useState(lightRootsData);
+    const [lightRoots, SetLightRoots] = useState([]);
     const markerIcon = new Icon({
         iconUrl: lightRootIcon,
         iconSize: [25, 25],
         // iconAnchor: [40, 90],
         // popupAnchor: [0, -10],
     });
+    useEffect(() => {
+        fetch('http://localhost:8080/markers?markType=3')
+            .then((res) => {
+                if (!res.ok) {
+                    throw Error('Could not fetch markers.');
+                } else {
+                    return res.json();
+                }
+            })
+            .then((datas) => {
+                const output = datas.markers.map((marker) => {
+                    return transData(marker.markName, marker.level, marker.coord_x, marker.coord_y, '');
+                });
+                SetLightRoots(output);
+            });
+    }, []);
     return (
         <MapLayers layerName="LightRoots" checked={false}>
             {lightRoots.map((lightRoot, index) => {
