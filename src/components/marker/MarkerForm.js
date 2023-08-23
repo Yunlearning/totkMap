@@ -1,4 +1,4 @@
-import { Form, Link, useActionData, json, redirect } from 'react-router-dom';
+import { Form, Link, useActionData, json, redirect, useSubmit } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
@@ -38,6 +38,7 @@ const Item = styled(Paper)(({ theme }) => ({
  */
 const MarkerForm = ({ method, marker }) => {
     const [markType, setMarkType] = useState(marker ? marker.markType : '');
+    const submit = useSubmit();
     console.log('MarkerForm---marker', marker);
     // useEffect(() => {
     //     if (marker.markType) {
@@ -48,9 +49,11 @@ const MarkerForm = ({ method, marker }) => {
         console.log('event.target.value)', event.target.value);
         setMarkType(event.target.value);
     };
-
+    const handleFormSubmit = (e) => {
+        submit(e.currentTarget, { method: method });
+    };
     return (
-        <Form method={method}>
+        <Form method={method} onSubmit={handleFormSubmit}>
             <Stack spacing={4}>
                 <FormControl variant="standard" fullWidth>
                     <InputLabel id="markType-label">類型</InputLabel>

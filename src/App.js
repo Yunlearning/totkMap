@@ -16,6 +16,7 @@ import { action as logoutAction } from './pages/Logout';
 import { tokenLoader } from './util/auth';
 import MarkerDetail, { loader as markerDetailLoader, action as markerDetailAction } from './pages/MarkerDetail';
 import EditMarker from './pages/EditMarker';
+import NoMatch from './pages/error/NoMatch';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
                 action: logoutAction,
             },
         ],
+    },
+    {
+        path: '*',
+        element: <NoMatch />,
     },
 ]);
 function App() {

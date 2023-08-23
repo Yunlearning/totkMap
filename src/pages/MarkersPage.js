@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Await, Link, defer, json, useLoaderData } from 'react-router-dom';
-import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -19,8 +19,13 @@ const MarkersPage = () => {
                 </Button>
                 {/* <Typography sx={{ minWidth: 100 }}>Profile</Typography> */}
             </Box>
+
             <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
-                <Await resolve={markers}>{(loadedMarkers) => <CardList markers={loadedMarkers.markers} />}</Await>
+                <Await resolve={markers}>
+                    {(loadedMarkers) => {
+                        return <CardList markers={loadedMarkers.markers} />;
+                    }}
+                </Await>
             </Suspense>
         </>
     );
