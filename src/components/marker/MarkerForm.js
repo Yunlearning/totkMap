@@ -18,14 +18,6 @@ import { Button } from '@mui/material';
 import { indigo } from '@mui/material/colors';
 //
 import { getAuthToken } from '../../util/auth';
-const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    // textAlign: 'center',
-    color: theme.palette.text.secondary,
-    height: 60,
-    lineHeight: '60px',
-}));
-
 /**
  * name
  * coord_x
@@ -39,14 +31,9 @@ const Item = styled(Paper)(({ theme }) => ({
 const MarkerForm = ({ method, marker }) => {
     const [markType, setMarkType] = useState(marker ? marker.markType : '');
     const submit = useSubmit();
-    console.log('MarkerForm---marker', marker);
-    // useEffect(() => {
-    //     if (marker.markType) {
-    //         setMarkType(marker.markType);
-    //     }
-    // }, [markType]);
+    // console.log('MarkerForm---marker', marker);
     const handleChange = (event) => {
-        console.log('event.target.value)', event.target.value);
+        // console.log('event.target.value)', event.target.value);
         setMarkType(event.target.value);
     };
     const handleFormSubmit = (e) => {
@@ -122,8 +109,6 @@ const MarkerForm = ({ method, marker }) => {
                 </FormControl>
                 <Stack spacing={2} direction="row">
                     <Button
-                        // component={Link}
-                        // to="/markers"
                         type="submit"
                         color={method === 'patch' ? 'success' : 'secondary'}
                         sx={{ width: '150px', textAlign: 'end' }}

@@ -17,7 +17,6 @@ const MarkersPage = () => {
                 <Button className="ml-auto mr-6" variant="contained" component={Link} to="new">
                     Add Marker
                 </Button>
-                {/* <Typography sx={{ minWidth: 100 }}>Profile</Typography> */}
             </Box>
 
             <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
@@ -31,9 +30,12 @@ const MarkersPage = () => {
     );
 };
 export default MarkersPage;
-
-async function loadMarkers() {
-    const response = await fetch('http://localhost:8080/markers');
+async function loadMarkers(request) {
+    // console.log('loadMarkers', new URL(request.url).searchParams.get('markType'));
+    const searchParams = new URL(request.url).searchParams;
+    const markType = searchParams.get('markType');
+    const url = `http://localhost:8080/markers/${markType ? '?markType=' + markType : ''}`;
+    const response = await fetch(url);
     // const testFilter = await fetch('http://localhost:8080/markers/filterData?markType=1');
     // const testData = await testFilter.json();
     // console.log('result:---', testData);
@@ -46,8 +48,8 @@ async function loadMarkers() {
         // return resData.markers
     }
 }
-export function loader() {
+export function loader({ request }) {
     return defer({
-        markers: loadMarkers(),
+        markers: loadMarkers(request),
     });
 }

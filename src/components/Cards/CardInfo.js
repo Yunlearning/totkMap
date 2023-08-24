@@ -15,28 +15,21 @@ import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 //
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 
 export default function CardInfo({ markInfo }) {
     const { id, title, type, imgSrc, axis } = markInfo;
     const token = useRouteLoaderData('root');
-    const submit = useSubmit();
+    // const submit = useSubmit();
     const handleEdit = () => {
-        console.log('edit!');
+        // console.log('edit!');
     };
-    const handleDelete = () => {
-        console.log('delete!');
-        const proceed = window.confirm('確定刪除?');
-        if (proceed) {
-            submit({ markerId: id }, { method: 'delete' });
-        }
-    };
+    // const handleDelete = () => {
+    //     // console.log('delete!');
+    //     const proceed = window.confirm('確定刪除?');
+    //     if (proceed) {
+    //         submit({ markerId: id }, { method: 'delete' });
+    //     }
+    // };
     return (
         <Card sx={{ width: '100%' }}>
             <CardActionArea component={Link} to={`/markers/${id}`}>
@@ -47,11 +40,14 @@ export default function CardInfo({ markInfo }) {
                 >
                     <Grid container spacing={0.5}>
                         <Grid item xs={4}>
-                            <CardMedia
-                                sx={{ width: 320, height: '100%', minHeight: 180 }}
-                                image={imgSrc}
-                                title="green iguana"
-                            />
+                            <Paper className="py-2 pl-2">
+                                <CardMedia
+                                    className="rounded"
+                                    sx={{ width: 320, height: '100%', minHeight: 180 }}
+                                    image={imgSrc}
+                                    title="green iguana"
+                                />
+                            </Paper>
                         </Grid>
                         <Grid item container xs={8}>
                             <Grid item xs={12}>
@@ -76,7 +72,7 @@ export default function CardInfo({ markInfo }) {
                                     </ListItem>
                                 </List>
                             </Grid>
-                            {token && (
+                            {/* {token && (
                                 <Grid item xs={12}>
                                     <CardActions sx={{ justifyContent: 'end' }}>
                                         <Button onClick={handleEdit} size="small">
@@ -87,7 +83,7 @@ export default function CardInfo({ markInfo }) {
                                         </Button>
                                     </CardActions>
                                 </Grid>
-                            )}
+                            )} */}
                         </Grid>
                     </Grid>
                 </CardContent>
