@@ -33,7 +33,10 @@ export default MarkersPage;
 async function loadMarkers(request) {
     // console.log('loadMarkers', new URL(request.url).searchParams.get('markType'));
     const searchParams = new URL(request.url).searchParams;
+    const searchValue = searchParams.get('searchValue');
     const markType = searchParams.get('markType');
+    // const url2 = `http://localhost:8080/markers/?markType=${1}&markName=${'Thyphlo'}`;
+    // const url3 = `http://localhost:8080/markers/?&markName=${'Thyphlo'}`;
     const url = `http://localhost:8080/markers/${markType ? '?markType=' + markType : ''}`;
     const response = await fetch(url);
     // const testFilter = await fetch('http://localhost:8080/markers/filterData?markType=1');
